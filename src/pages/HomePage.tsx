@@ -9,9 +9,11 @@ import { QueueWidget } from '../components/QueueWidget';
 import { Queue2DVisualization } from '../components/Queue2DVisualization';
 import { BookingForm } from '../components/BookingForm';
 import { PatientLookup } from '../components/PatientLookup';
+import { PrescriptionDownload } from '../components/PrescriptionDownload';
+import { InteractiveGuide } from '../components/InteractiveGuide';
 import { useTranslation } from '../lib/translations';
 import { BookingRequest, BookingResponse, DepartmentStats } from '../types';
-import { supabase, isSupabaseConfigured } from '../lib/supabase';
+import { supabase, isSupabaseConfigured, safeQuery } from '../lib/supabase';
 import { generateUID } from '../lib/utils';
 import { generateQRCode, QRPayload, downloadQRCode } from '../lib/qr';
 import { useRealTimeUpdates } from '../hooks/useRealTimeUpdates';
@@ -22,6 +24,8 @@ export const HomePage: React.FC = () => {
   const [showBookingModal, setShowBookingModal] = useState(false);
   const [showConfirmationModal, setShowConfirmationModal] = useState(false);
   const [showPatientLookup, setShowPatientLookup] = useState(false);
+  const [showPrescriptionDownload, setShowPrescriptionDownload] = useState(false);
+  const [showInteractiveGuide, setShowInteractiveGuide] = useState(false);
   const [bookingLoading, setBookingLoading] = useState(false);
   const [bookingResult, setBookingResult] = useState<BookingResponse | null>(null);
   const [qrCodeDataURL, setQrCodeDataURL] = useState<string>('');
@@ -62,13 +66,18 @@ export const HomePage: React.FC = () => {
       
       const today = new Date().toISOString().split('T')[0];
       
-      const { data: departments } = await supabase
-        .from('departments')
-        .select('*')
-        .eq('is_active', true);
+      const { data: departments, error: deptError } = await safeQuery(() =>
+        supabase!
+          .from('departments')
+          .select('*')
+          .eq('is_active', true)
+      );
 
-      if (departments === null) {
-        throw new Error('Failed to fetch departments from database');
+      if (deptError || !departments) {
+        console.error('Departments fetch error:', deptError);
+        setError('Unable to load department information. Please check your database connection.');
+        setDepartmentStats([]);
+        return;
       }
 
       if (departments.length === 0) {
@@ -77,15 +86,19 @@ export const HomePage: React.FC = () => {
         return;
       }
       
-      const { data: visits } = await supabase
-        .from('visits')
-        .select('department, status')
-        .eq('visit_date', today);
+      const { data: visits } = await safeQuery(() =>
+        supabase!
+          .from('visits')
+          .select('department, status, stn')
+          .eq('visit_date', today)
+      );
 
-      const { data: doctors } = await supabase
-        .from('doctors')
-        .select('specialization')
-        .eq('status', 'active');
+      const { data: doctors } = await safeQuery(() =>
+        supabase!
+          .from('doctors')
+          .select('specialization')
+          .eq('status', 'active')
+      );
 
       const stats: DepartmentStats[] = (departments || []).map(dept => {
         const deptVisits = visits?.filter(v => v.department === dept.name) || [];
@@ -470,6 +483,14 @@ export const HomePage: React.FC = () => {
             </div>
             <div className="flex items-center space-x-4">
               <LanguageSwitcher />
+              <Button variant="outline" onClick={() => setShowInteractiveGuide(true)}>
+                <Search className="h-4 w-4 mr-2" />
+                How it Works
+              </Button>
+              <Button variant="outline" onClick={() => setShowPrescriptionDownload(true)}>
+                <QrCode className="h-4 w-4 mr-2" />
+                Download Prescriptions
+              </Button>
               <Button variant="outline" onClick={() => setShowPatientLookup(true)}>
                 <Search className="h-4 w-4 mr-2" />
                 {t('track_by_uid')}
@@ -537,6 +558,25 @@ export const HomePage: React.FC = () => {
             <Calendar className="mr-2 h-6 w-6" />
             {t('book_token_now')}
           </Button>
+          
+          <div className="flex justify-center space-x-4 mb-8">
+            <Button
+              onClick={() => setShowInteractiveGuide(true)}
+              variant="outline"
+              size="lg"
+            >
+              <Users className="mr-2 h-5 w-5" />
+              Interactive Guide
+            </Button>
+            <Button
+              onClick={() => setShowPrescriptionDownload(true)}
+              variant="outline"
+              size="lg"
+            >
+              <FileText className="mr-2 h-5 w-5" />
+              Get Prescriptions
+            </Button>
+          </div>
         </div>
 
         {/* Live Queue Widget */}
@@ -785,6 +825,18 @@ export const HomePage: React.FC = () => {
       <PatientLookup
         isOpen={showPatientLookup}
         onClose={() => setShowPatientLookup(false)}
+      />
+
+      {/* Prescription Download Modal */}
+      <PrescriptionDownload
+        isOpen={showPrescriptionDownload}
+        onClose={() => setShowPrescriptionDownload(false)}
+      />
+
+      {/* Interactive Guide Modal */}
+      <InteractiveGuide
+        isOpen={showInteractiveGuide}
+        onClose={() => setShowInteractiveGuide(false)}
       />
 
       {/* Stripe Payment Modal */}
