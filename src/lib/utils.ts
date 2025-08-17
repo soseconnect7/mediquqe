@@ -132,22 +132,13 @@ export const copyToClipboard = async (text: string): Promise<boolean> => {
 };
 
 export const downloadFile = (data: string, filename: string, type: string = 'text/plain') => {
-  try {
-    const blob = new Blob([data], { type });
-    const url = window.URL.createObjectURL(blob);
-    const link = document.createElement('a');
-    link.href = url;
-    link.download = filename;
-    link.style.display = 'none';
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-    window.URL.revokeObjectURL(url);
-    return true;
-  } catch (error) {
-    console.error('Download failed:', error);
-    return false;
-  }
+  const blob = new Blob([data], { type });
+  const url = window.URL.createObjectURL(blob);
+  const link = document.createElement('a');
+  link.href = url;
+  link.download = filename;
+  link.click();
+  window.URL.revokeObjectURL(url);
 };
 
 export const formatCurrency = (amount: number, currency: string = 'INR'): string => {
@@ -187,102 +178,4 @@ export const generateRandomColor = (): string => {
 
 export const sleep = (ms: number): Promise<void> => {
   return new Promise(resolve => setTimeout(resolve, ms));
-};
-
-// Enhanced error handling utilities
-export const handleAsyncError = async <T>(
-  asyncFn: () => Promise<T>,
-  fallback?: T
-): Promise<{ data: T | null; error: string | null }> => {
-  try {
-    const data = await asyncFn();
-    return { data, error: null };
-  } catch (error: any) {
-    console.error('Async operation failed:', error);
-    return { 
-      data: fallback || null, 
-      error: error.message || 'Operation failed' 
-    };
-  }
-};
-
-// Safe JSON parsing
-export const safeJsonParse = <T>(json: string, fallback: T): T => {
-  try {
-    return JSON.parse(json);
-  } catch {
-    return fallback;
-  }
-};
-
-// Retry utility
-export const retry = async <T>(
-  fn: () => Promise<T>,
-  retries: number = 3,
-  delay: number = 1000
-): Promise<T> => {
-  try {
-    return await fn();
-  } catch (error) {
-    if (retries > 0) {
-      await sleep(delay);
-      return retry(fn, retries - 1, delay * 2);
-    }
-    throw error;
-  }
-};
-
-// Form validation utilities
-export const validateRequired = (value: any, fieldName: string): string | null => {
-  if (!value || (typeof value === 'string' && !value.trim())) {
-    return `${fieldName} is required`;
-  }
-  return null;
-};
-
-export const validateEmail = (email: string): string | null => {
-  if (!email) return null;
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  return emailRegex.test(email) ? null : 'Invalid email format';
-};
-
-export const validatePhone = (phone: string): string | null => {
-  if (!phone) return 'Phone number is required';
-  const phoneRegex = /^[\+]?[1-9][\d]{9,15}$/;
-  return phoneRegex.test(phone.replace(/\s/g, '')) ? null : 'Invalid phone number';
-};
-
-export const validateAge = (age: number): string | null => {
-  if (!age || age < 1 || age > 120) {
-    return 'Age must be between 1 and 120';
-  }
-  return null;
-};
-
-// Local storage utilities with error handling
-export const safeLocalStorage = {
-  get: <T>(key: string, fallback: T): T => {
-    try {
-      const item = localStorage.getItem(key);
-      return item ? JSON.parse(item) : fallback;
-    } catch {
-      return fallback;
-    }
-  },
-  set: (key: string, value: any): boolean => {
-    try {
-      localStorage.setItem(key, JSON.stringify(value));
-      return true;
-    } catch {
-      return false;
-    }
-  },
-  remove: (key: string): boolean => {
-    try {
-      localStorage.removeItem(key);
-      return true;
-    } catch {
-      return false;
-    }
-  }
 };
