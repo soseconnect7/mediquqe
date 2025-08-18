@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import { Heart, Clock, Users, Calendar, QrCode, CheckCircle, Search } from 'lucide-react';
+import { Heart, Clock, Users, Calendar, QrCode, CheckCircle, Search, Play, Info, Sparkles } from 'lucide-react';
 import { Button } from '../components/ui/Button';
 import { Input } from '../components/ui/Input';
 import { Card, CardContent, CardHeader } from '../components/ui/Card';
 import { Modal } from '../components/ui/Modal';
+import { InteractiveGuide } from '../components/InteractiveGuide';
 import { LanguageSwitcher } from '../components/LanguageSwitcher';
 import { QueueWidget } from '../components/QueueWidget';
 import { Queue2DVisualization } from '../components/Queue2DVisualization';
@@ -22,6 +23,7 @@ export const HomePage: React.FC = () => {
   const [showBookingModal, setShowBookingModal] = useState(false);
   const [showConfirmationModal, setShowConfirmationModal] = useState(false);
   const [showPatientLookup, setShowPatientLookup] = useState(false);
+  const [showInteractiveGuide, setShowInteractiveGuide] = useState(false);
   const [bookingLoading, setBookingLoading] = useState(false);
   const [bookingResult, setBookingResult] = useState<BookingResponse | null>(null);
   const [qrCodeDataURL, setQrCodeDataURL] = useState<string>('');
@@ -470,6 +472,10 @@ export const HomePage: React.FC = () => {
             </div>
             <div className="flex items-center space-x-4">
               <LanguageSwitcher />
+              <Button variant="outline" onClick={() => setShowInteractiveGuide(true)}>
+                <Play className="h-4 w-4 mr-2" />
+                How it Works
+              </Button>
               <Button variant="outline" onClick={() => setShowPatientLookup(true)}>
                 <Search className="h-4 w-4 mr-2" />
                 {t('track_by_uid')}
@@ -521,6 +527,32 @@ export const HomePage: React.FC = () => {
           </div>
         )}
         
+        {/* Interactive Guide Banner */}
+        <div className="mb-8">
+          <Card className="bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 text-white border-0 shadow-xl">
+            <CardContent className="pt-6 pb-6">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center space-x-4">
+                  <div className="bg-white bg-opacity-20 rounded-full p-3">
+                    <Sparkles className="h-8 w-8" />
+                  </div>
+                  <div>
+                    <h3 className="text-xl font-bold mb-1">New to MediQueue?</h3>
+                    <p className="text-blue-100">Take our interactive guide to learn how to book and track your appointment in under 2 minutes!</p>
+                  </div>
+                </div>
+                <Button
+                  onClick={() => setShowInteractiveGuide(true)}
+                  className="bg-white text-blue-600 hover:bg-blue-50 font-semibold px-6 py-3"
+                >
+                  <Play className="h-5 w-5 mr-2" />
+                  Start Guide
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+        
         <div className="text-center mb-12">
           <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
             {t('skip_wait_book_token')}
@@ -542,11 +574,37 @@ export const HomePage: React.FC = () => {
         {/* Live Queue Widget */}
         <QueueWidget />
 
-        {/* 2D Queue Visualization */}
-        <Card className="mb-12">
+        {/* Enhanced 2D Queue Visualization */}
+        <Card className="mb-12 bg-gradient-to-br from-white to-blue-50 border-2 border-blue-100 shadow-xl">
           <CardHeader>
-            <h3 className="text-2xl font-bold text-center text-gray-900">Live Queue Dashboard</h3>
-            <p className="text-center text-gray-600">Real-time visualization of all department queues with patient emojis</p>
+            <div className="text-center space-y-3">
+              <div className="flex items-center justify-center space-x-3">
+                <div className="bg-blue-500 rounded-full p-2">
+                  <Activity className="h-6 w-6 text-white" />
+                </div>
+                <h3 className="text-3xl font-bold text-gray-900">Live Queue Dashboard</h3>
+                <div className="bg-green-500 rounded-full p-2 animate-pulse">
+                  <div className="w-2 h-2 bg-white rounded-full"></div>
+                </div>
+              </div>
+              <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+                Real-time visualization of all department queues with live patient tracking and smart wait time predictions
+              </p>
+              <div className="flex items-center justify-center space-x-4 text-sm text-gray-500">
+                <div className="flex items-center space-x-1">
+                  <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+                  <span>Live Updates</span>
+                </div>
+                <div className="flex items-center space-x-1">
+                  <Clock className="h-3 w-3" />
+                  <span>Real-time Tracking</span>
+                </div>
+                <div className="flex items-center space-x-1">
+                  <Users className="h-3 w-3" />
+                  <span>Smart Queue Management</span>
+                </div>
+              </div>
+            </div>
           </CardHeader>
           <CardContent>
             <Queue2DVisualization 
@@ -785,6 +843,12 @@ export const HomePage: React.FC = () => {
       <PatientLookup
         isOpen={showPatientLookup}
         onClose={() => setShowPatientLookup(false)}
+      />
+
+      {/* Interactive Guide Modal */}
+      <InteractiveGuide
+        isOpen={showInteractiveGuide}
+        onClose={() => setShowInteractiveGuide(false)}
       />
 
       {/* Stripe Payment Modal */}
