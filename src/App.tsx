@@ -1,20 +1,19 @@
-import React from 'react';
-import { HomePage } from './pages/HomePage';
-import { AdminPage } from './pages/AdminPage';
-import { DoctorRoomPage } from './pages/DoctorRoomPage';
+import React from "react";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { HomePage } from "./pages/HomePage";
+import { AdminPage } from "./pages/AdminPage";
+import { DoctorRoomPage } from "./pages/DoctorRoomPage";
 
 function App() {
-  const path = window.location.pathname;
-  
-  if (path === '/admin' || path === '/admin/') {
-    return <AdminPage />;
-  }
-  
-  if (path === '/doctor' || path === '/doctor/') {
-    return <DoctorRoomPage />;
-  }
-  
-  return <HomePage />;
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/admin" element={<AdminPage />} />
+        <Route path="/doctor" element={<DoctorRoomPage />} />
+      </Routes>
+    </BrowserRouter>
+  );
 }
 
 export default App;
