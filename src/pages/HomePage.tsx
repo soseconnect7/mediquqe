@@ -529,24 +529,40 @@ export const HomePage: React.FC = () => {
         
         {/* Interactive Guide Banner */}
         <div className="mb-8">
-          <Card className="bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 text-white border-0 shadow-xl">
+          <Card className="bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 text-white border-0 shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1">
             <CardContent className="pt-6 pb-6">
               <div className="flex items-center justify-between">
                 <div className="flex items-center space-x-4">
-                  <div className="bg-white bg-opacity-20 rounded-full p-3">
+                  <div className="bg-white bg-opacity-20 rounded-full p-3 animate-pulse">
                     <Sparkles className="h-8 w-8" />
                   </div>
                   <div>
-                    <h3 className="text-xl font-bold mb-1">New to MediQueue?</h3>
-                    <p className="text-blue-100">Take our interactive guide to learn how to book and track your appointment in under 2 minutes!</p>
+                    <h3 className="text-2xl font-bold mb-2 flex items-center">
+                      🚀 New to MediQueue?
+                    </h3>
+                    <p className="text-blue-100 text-lg">Take our interactive guide to learn how to book and track your appointment in under 2 minutes!</p>
+                    <div className="flex items-center space-x-4 mt-2 text-sm text-blue-200">
+                      <span className="flex items-center">
+                        <Clock className="h-4 w-4 mr-1" />
+                        2 min guide
+                      </span>
+                      <span className="flex items-center">
+                        <Users className="h-4 w-4 mr-1" />
+                        5 easy steps
+                      </span>
+                      <span className="flex items-center">
+                        <CheckCircle className="h-4 w-4 mr-1" />
+                        Get started fast
+                      </span>
+                    </div>
                   </div>
                 </div>
                 <Button
                   onClick={() => setShowInteractiveGuide(true)}
-                  className="bg-white text-blue-600 hover:bg-blue-50 font-semibold px-6 py-3"
+                  className="bg-white text-blue-600 hover:bg-blue-50 font-semibold px-8 py-4 text-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
                 >
                   <Play className="h-5 w-5 mr-2" />
-                  Start Guide
+                  Start Interactive Guide
                 </Button>
               </div>
             </CardContent>
@@ -575,33 +591,39 @@ export const HomePage: React.FC = () => {
         <QueueWidget />
 
         {/* Enhanced 2D Queue Visualization */}
-        <Card className="mb-12 bg-gradient-to-br from-white to-blue-50 border-2 border-blue-100 shadow-xl">
+        <Card className="mb-12 bg-gradient-to-br from-white via-blue-50 to-indigo-50 border-2 border-blue-200 shadow-2xl hover:shadow-3xl transition-all duration-500">
           <CardHeader>
             <div className="text-center space-y-3">
               <div className="flex items-center justify-center space-x-3">
-                <div className="bg-blue-500 rounded-full p-2">
+                <div className="bg-gradient-to-r from-blue-500 to-purple-500 rounded-full p-3 shadow-lg">
                   <Activity className="h-6 w-6 text-white" />
                 </div>
-                <h3 className="text-3xl font-bold text-gray-900">Live Queue Dashboard</h3>
-                <div className="bg-green-500 rounded-full p-2 animate-pulse">
-                  <div className="w-2 h-2 bg-white rounded-full"></div>
+                <h3 className="text-4xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+                  Live Queue Dashboard
+                </h3>
+                <div className="bg-gradient-to-r from-green-400 to-green-500 rounded-full p-2 animate-pulse shadow-lg">
+                  <div className="w-3 h-3 bg-white rounded-full animate-ping"></div>
                 </div>
               </div>
-              <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-                Real-time visualization of all department queues with live patient tracking and smart wait time predictions
+              <p className="text-xl text-gray-700 max-w-3xl mx-auto leading-relaxed">
+                🎯 Real-time visualization of all department queues with live patient tracking, smart wait time predictions, and interactive department insights
               </p>
-              <div className="flex items-center justify-center space-x-4 text-sm text-gray-500">
-                <div className="flex items-center space-x-1">
-                  <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-                  <span>Live Updates</span>
+              <div className="flex flex-wrap items-center justify-center gap-6 text-sm">
+                <div className="flex items-center space-x-2 bg-green-100 px-3 py-2 rounded-full">
+                  <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
+                  <span className="text-green-700 font-medium">Live Updates</span>
                 </div>
-                <div className="flex items-center space-x-1">
+                <div className="flex items-center space-x-2 bg-blue-100 px-3 py-2 rounded-full">
                   <Clock className="h-3 w-3" />
-                  <span>Real-time Tracking</span>
+                  <span className="text-blue-700 font-medium">Real-time Tracking</span>
                 </div>
-                <div className="flex items-center space-x-1">
+                <div className="flex items-center space-x-2 bg-purple-100 px-3 py-2 rounded-full">
                   <Users className="h-3 w-3" />
-                  <span>Smart Queue Management</span>
+                  <span className="text-purple-700 font-medium">Smart Queue Management</span>
+                </div>
+                <div className="flex items-center space-x-2 bg-orange-100 px-3 py-2 rounded-full">
+                  <Activity className="h-3 w-3" />
+                  <span className="text-orange-700 font-medium">Interactive Dashboard</span>
                 </div>
               </div>
             </div>
@@ -609,6 +631,7 @@ export const HomePage: React.FC = () => {
           <CardContent>
             <Queue2DVisualization 
               departmentStats={departmentStats}
+              className="animate-fadeIn"
             />
           </CardContent>
         </Card>
