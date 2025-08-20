@@ -468,17 +468,24 @@ export const HomePage: React.FC = () => {
           <div className="flex items-center justify-between h-16">
             <div className="flex items-center">
               <Heart className="h-8 w-8 text-blue-600 mr-3" />
-              <h1 className="text-2xl font-bold text-gray-900">{t('clinic_name')}</h1>
+              <div>
+                <h1 className="text-2xl font-bold text-gray-900">Sancura</h1>
+                <p className="text-sm text-gray-600">Advanced Hospital OPD Platform</p>
+              </div>
             </div>
             <div className="flex items-center space-x-4">
               <LanguageSwitcher />
+              <Button variant="outline" onClick={() => window.location.href = '/appointments'}>
+                <Calendar className="h-4 w-4 mr-2" />
+                Appointments
+              </Button>
+              <Button variant="outline" onClick={() => window.location.href = '/history'}>
+                <Search className="h-4 w-4 mr-2" />
+                Patient History
+              </Button>
               <Button variant="outline" onClick={() => setShowInteractiveGuide(true)}>
                 <Play className="h-4 w-4 mr-2" />
                 How it Works
-              </Button>
-              <Button variant="outline" onClick={() => setShowPatientLookup(true)}>
-                <Search className="h-4 w-4 mr-2" />
-                {t('track_by_uid')}
               </Button>
             </div>
           </div>
@@ -571,10 +578,10 @@ export const HomePage: React.FC = () => {
         
         <div className="text-center mb-12">
           <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-            {t('skip_wait_book_token')}
+            Skip the Wait, Book Your Token
           </h2>
           <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
-            {t('get_appointment_instantly')}
+            Get your appointment token instantly, track the queue in real-time, and arrive exactly when it's your turn.
           </p>
           
           <Button
@@ -583,7 +590,7 @@ export const HomePage: React.FC = () => {
             className="mb-8 px-8 py-4 text-lg"
           >
             <Calendar className="mr-2 h-6 w-6" />
-            {t('book_token_now')}
+            Book Your Token Now
           </Button>
         </div>
 
@@ -641,9 +648,9 @@ export const HomePage: React.FC = () => {
           <Card className="text-center">
             <CardContent className="pt-6">
               <Clock className="h-12 w-12 text-blue-600 mx-auto mb-4" />
-              <h3 className="text-xl font-semibold text-gray-900 mb-2">{t('real_time_updates')}</h3>
+              <h3 className="text-xl font-semibold text-gray-900 mb-2">Real-Time Updates</h3>
               <p className="text-gray-600">
-                {t('real_time_desc')}
+                Get live updates on queue status and your estimated wait time.
               </p>
             </CardContent>
           </Card>
@@ -651,9 +658,9 @@ export const HomePage: React.FC = () => {
           <Card className="text-center">
             <CardContent className="pt-6">
               <QrCode className="h-12 w-12 text-green-600 mx-auto mb-4" />
-              <h3 className="text-xl font-semibold text-gray-900 mb-2">{t('qr_check_in')}</h3>
+              <h3 className="text-xl font-semibold text-gray-900 mb-2">QR Code Check-in</h3>
               <p className="text-gray-600">
-                {t('qr_check_in_desc')}
+                Quick and contactless check-in with your personal QR code.
               </p>
             </CardContent>
           </Card>
@@ -661,9 +668,9 @@ export const HomePage: React.FC = () => {
           <Card className="text-center">
             <CardContent className="pt-6">
               <Users className="h-12 w-12 text-purple-600 mx-auto mb-4" />
-              <h3 className="text-xl font-semibold text-gray-900 mb-2">{t('multiple_departments')}</h3>
+              <h3 className="text-xl font-semibold text-gray-900 mb-2">Multiple Departments</h3>
               <p className="text-gray-600">
-                {t('multiple_departments_desc')}
+                Book tokens for different departments with specialized queues.
               </p>
             </CardContent>
           </Card>
@@ -717,6 +724,7 @@ export const HomePage: React.FC = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="text-center text-sm text-gray-600">
             <p>
+              <strong>Sancura</strong> - Advanced Hospital OPD Platform | 
               Developed by{' '}
               <a 
                 href="https://instagram.com/aftabxplained" 
@@ -724,16 +732,7 @@ export const HomePage: React.FC = () => {
                 rel="noopener noreferrer"
                 className="font-medium text-blue-600 hover:text-blue-800"
               >
-                Aftab Alam [ASOSE Lajpat Nagar]
-              </a>
-              {' '}| Follow on Instagram:{' '}
-              <a 
-                href="https://instagram.com/aftabxplained" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="font-medium text-blue-600 hover:text-blue-800"
-              >
-                @aftabxplained
+                Aftab Alam
               </a>
             </p>
           </div>
@@ -744,7 +743,7 @@ export const HomePage: React.FC = () => {
       <Modal
         isOpen={showBookingModal}
         onClose={() => setShowBookingModal(false)}
-        title={t('book_your_token')}
+        title="Book Your Token"
         size="lg"
       >
         <BookingForm onSubmit={handleBookToken} loading={bookingLoading} />
@@ -754,15 +753,15 @@ export const HomePage: React.FC = () => {
       <Modal
         isOpen={showConfirmationModal}
         onClose={() => setShowConfirmationModal(false)}
-        title={t('booking_confirmed')}
+        title="Booking Confirmed!"
         size="lg"
       >
         {bookingResult && (
           <div className="space-y-6">
             <div className="text-center">
               <CheckCircle className="h-16 w-16 text-green-500 mx-auto mb-4" />
-              <h3 className="text-2xl font-bold text-gray-900 mb-2">{t('booking_confirmed')}</h3>
-              <p className="text-gray-600">{t('appointment_confirmed')}</p>
+              <h3 className="text-2xl font-bold text-gray-900 mb-2">Booking Confirmed!</h3>
+              <p className="text-gray-600">Your appointment has been successfully booked</p>
             </div>
 
             <div className="grid md:grid-cols-2 gap-6">
@@ -837,12 +836,12 @@ export const HomePage: React.FC = () => {
             </div>
 
             <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
-              <h5 className="font-semibold text-yellow-800 mb-2">{t('important_instructions')}</h5>
+              <h5 className="font-semibold text-yellow-800 mb-2">Important Instructions:</h5>
               <ul className="text-sm text-yellow-700 space-y-1">
-                <li>• {t('save_qr_code')}</li>
-                <li>• {t('arrive_on_time')}</li>
-                <li>• {t('show_qr_reception')}</li>
-                <li>• {t('track_live_queue')}</li>
+                <li>• Save or download your QR code for check-in</li>
+                <li>• Arrive at the clinic when your token is close to being served</li>
+                <li>• Show your QR code to the reception for quick check-in</li>
+                <li>• Track the live queue status on this page</li>
               </ul>
             </div>
 

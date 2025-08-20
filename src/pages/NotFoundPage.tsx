@@ -41,19 +41,19 @@ export const NotFoundPage: React.FC = () => {
               </CardContent>
             </Card>
 
-            <Card className="border-2 border-green-100 hover:border-green-300 transition-colors cursor-pointer" onClick={() => window.location.href = '/admin'}>
+            <Card className="border-2 border-green-100 hover:border-green-300 transition-colors cursor-pointer" onClick={() => window.location.href = '/appointments'}>
               <CardContent className="pt-6 pb-6">
-                <Search className="h-8 w-8 text-green-600 mx-auto mb-3" />
-                <h3 className="font-semibold text-gray-900 mb-2">Admin Panel</h3>
-                <p className="text-sm text-gray-600">Manage appointments</p>
+                <Calendar className="h-8 w-8 text-green-600 mx-auto mb-3" />
+                <h3 className="font-semibold text-gray-900 mb-2">Appointments</h3>
+                <p className="text-sm text-gray-600">Schedule appointments</p>
               </CardContent>
             </Card>
 
-            <Card className="border-2 border-purple-100 hover:border-purple-300 transition-colors cursor-pointer" onClick={() => window.location.href = '/doctor'}>
+            <Card className="border-2 border-purple-100 hover:border-purple-300 transition-colors cursor-pointer" onClick={() => window.location.href = '/admin'}>
               <CardContent className="pt-6 pb-6">
-                <HelpCircle className="h-8 w-8 text-purple-600 mx-auto mb-3" />
-                <h3 className="font-semibold text-gray-900 mb-2">Doctor Room</h3>
-                <p className="text-sm text-gray-600">Consultation portal</p>
+                <Search className="h-8 w-8 text-purple-600 mx-auto mb-3" />
+                <h3 className="font-semibold text-gray-900 mb-2">Admin Panel</h3>
+                <p className="text-sm text-gray-600">System management</p>
               </CardContent>
             </Card>
           </div>

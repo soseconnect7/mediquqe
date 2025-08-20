@@ -1,148 +1,207 @@
-# Clinic Token & Queue Management System
+# Sancura - Complete Hospital OPD Platform
 
-A complete, production-ready clinic token and queue management system built with React, TypeScript, and Supabase. Features real-time queue updates, QR code generation/scanning, and a comprehensive admin dashboard.
+**Formerly MediQueue** - A comprehensive hospital-grade OPD management system that transforms patient flow into a seamless digital experience.
 
-## Features
+## 🏥 Vision
 
-### Patient Features
-- **No-signup booking** - Quick token booking with just name, age, phone, and department
-- **Real-time queue tracking** - Live updates on queue position and estimated wait times
-- **QR code generation** - Instant QR code generation for quick check-ins
-- **Mobile-first design** - Responsive interface optimized for mobile devices
-- **Payment flexibility** - Choose to pay online or at the clinic
+To transform hospital OPD & clinical flows into a seamless, patient-first digital experience. Sancura evolves from a simple queue system into a complete hospital-grade OPD platform with appointments, billing, history, and analytics — all while keeping reliability, speed, and usability at the core.
 
-### Admin Features
-- **Real-time dashboard** - Live queue management with instant updates
-- **QR code scanning** - Built-in QR scanner for quick patient check-ins
-- **Patient management** - Complete patient history and visit tracking
-- **Queue controls** - Advance queue, hold patients, update statuses
-- **Payment tracking** - Monitor and update payment statuses
-- **Multi-session sync** - Multiple admin sessions stay synchronized
+## ✨ Features
 
-### Technical Features
-- **Real-time updates** - Supabase Realtime for instant synchronization
-- **Secure authentication** - Supabase Auth for admin access
-- **Encrypted QR codes** - Secure patient data in QR codes
-- **Responsive design** - Works perfectly on all devices
-- **Type-safe** - Full TypeScript implementation
-- **Production-ready** - Comprehensive error handling and security
+### Core System (Production Ready)
+- **Walk-in Registration** - Instant patient registration without signup
+- **Smart Queue Management** - Real-time token system per doctor/department
+- **Live Updates** - WebSocket-powered real-time synchronization
+- **Doctor Console** - Complete consultation interface with voice notes
+- **Admin Dashboard** - Comprehensive monitoring and management
+- **QR Code System** - Contactless check-in and patient tracking
 
-## Quick Start
+### Advanced Features
+- **Appointment Scheduling** - Book appointments in advance with slot management
+- **Doctor Availability** - Flexible scheduling and capacity management
+- **Integrated Billing** - Simple billing system with PDF receipts
+- **Smart Notifications** - Web-based patient engagement system
+- **Multi-Department Support** - Hospital-wide deployment capability
+- **Patient History** - Mini-EMR with visit history and medical records
+- **Analytics & Reports** - Comprehensive insights and reporting
 
-1. **Clone and install dependencies**:
+## 🚀 Quick Start
+
+1. **Clone and Setup**:
    ```bash
    git clone <your-repo>
-   cd clinic-queue-system
+   cd sancura
    npm install
    ```
 
-2. **Set up Supabase**:
-   - Create a new Supabase project
-   - Click "Connect to Supabase" in the top right corner to set up the connection
-   - The database schema will be applied automatically
+2. **Database Setup**:
+   - Create a Supabase project
+   - Click "Connect to Supabase" in the top right
+   - Database schema will be applied automatically
 
-3. **Start development server**:
+3. **Environment Configuration**:
+   ```bash
+   cp .env.example .env
+   # Add your Supabase credentials
+   ```
+
+4. **Start Development**:
    ```bash
    npm run dev
    ```
 
-4. **Access the application**:
-   - Patient interface: `http://localhost:3000`
-   - Admin dashboard: `http://localhost:3000/admin`
+## 🏗️ Architecture
 
-## Environment Setup
+### Frontend Stack
+- **React 18** with TypeScript
+- **Tailwind CSS** for styling
+- **React Router v6** for navigation
+- **Supabase Client** for backend integration
+- **Real-time WebSockets** for live updates
 
-Create a `.env` file with your Supabase credentials:
+### Backend Stack
+- **Supabase** (PostgreSQL + Realtime + Auth)
+- **Row Level Security** for data protection
+- **Edge Functions** for serverless operations
+- **Real-time subscriptions** for live updates
 
+### Key Components
+- **Patient Portal** - Registration, queue tracking, appointments
+- **Doctor Console** - Consultation management, prescriptions, voice notes
+- **Admin Dashboard** - System monitoring, settings, analytics
+- **Billing System** - Payment processing, receipts, financial tracking
+
+## 📊 Database Schema
+
+### Core Entities
+- **Patients** - Patient profiles with permanent UIDs
+- **Visits** - Visit records with token numbers and status
+- **Doctors** - Doctor profiles with availability and specializations
+- **Departments** - Hospital departments with configurations
+- **Appointments** - Scheduled appointments with slot management
+- **Medical History** - Patient medical records and prescriptions
+- **Payment Transactions** - Billing and payment tracking
+
+## 🔧 Configuration
+
+### Department Setup
+Configure departments in Admin → Settings → Departments:
+```typescript
+{
+  name: 'cardiology',
+  display_name: 'Cardiology',
+  consultation_fee: 800,
+  average_consultation_time: 20,
+  color_code: '#EF4444'
+}
+```
+
+### Doctor Availability
+Set doctor schedules and capacity:
+```typescript
+{
+  available_days: ['monday', 'tuesday', 'wednesday'],
+  available_hours: { start: '09:00', end: '17:00' },
+  max_patients_per_day: 50
+}
+```
+
+## 🔐 Security Features
+
+- **Row-level security** on all database tables
+- **Encrypted QR payloads** prevent tampering
+- **Audit logging** for all admin actions
+- **Rate limiting** and input validation
+- **Secure authentication** with Supabase Auth
+
+## 📱 Multi-Platform Support
+
+- **Web Application** - Full-featured web interface
+- **Mobile Responsive** - Optimized for all devices
+- **PWA Ready** - Installable web app
+- **Offline Capable** - Basic functionality without internet
+
+## 🎯 Deployment Options
+
+### Supported Platforms
+- **Vercel** (Recommended)
+- **Netlify**
+- **Any static hosting** with SPA support
+
+### Environment Variables
 ```env
 VITE_SUPABASE_URL=your-supabase-url
 VITE_SUPABASE_ANON_KEY=your-supabase-anon-key
 ```
 
-## Database Schema
+## 📈 Analytics & Insights
 
-The system uses three main tables:
+- **Real-time dashboards** with live metrics
+- **Patient flow analytics** and wait time optimization
+- **Revenue tracking** and financial reports
+- **Doctor performance** metrics
+- **Department utilization** analysis
 
-- **`patients`** - Patient information with permanent UIDs
-- **`visits`** - Visit/booking records with token numbers (STN)
-- **`audit_logs`** - Security audit trail for admin actions
+## 🔄 Expansion Roadmap
 
-## Architecture
+### Phase 1: Enhanced Appointments ✅
+- Advanced slot management
+- Recurring appointments
+- Appointment reminders
 
-- **Frontend**: React + TypeScript + Tailwind CSS
-- **Backend**: Supabase (PostgreSQL + Realtime + Auth)
-- **Real-time**: Supabase Realtime for live updates
-- **QR Codes**: HTML5 QRCode library for generation/scanning
-- **Authentication**: Supabase Auth for admin access
-- **Security**: Row-level security policies and encrypted QR payloads
+### Phase 2: Advanced Billing ✅
+- Insurance integration
+- Payment plans
+- Financial reporting
 
-## Key Components
+### Phase 3: Enhanced EMR
+- Detailed medical records
+- Lab integration
+- Prescription management
 
-### Patient Flow
-1. Visit clinic website
-2. Fill out booking form (no signup required)
-3. Get assigned permanent UID and daily token number (STN)
-4. Download QR code
-5. Track queue status in real-time
-6. Show QR code at clinic for check-in
+### Phase 4: Multi-Location
+- Hospital chain support
+- Cross-location referrals
+- Centralized reporting
 
-### Admin Flow
-1. Login with Supabase Auth
-2. View real-time queue dashboard
-3. Scan patient QR codes for check-in
-4. Manage queue (advance, hold, complete patients)
-5. Track payments and patient history
+## 🛠️ Development
 
-## Customization
-
-### Adding Departments
-Modify the `departments` array in `src/components/BookingForm.tsx`:
-
-```typescript
-const departments = [
-  { value: 'general', label: 'General Medicine' },
-  { value: 'cardiology', label: 'Cardiology' },
-  // Add more departments...
-];
+### Project Structure
+```
+src/
+├── components/     # Reusable UI components
+├── pages/         # Main application pages
+├── hooks/         # Custom React hooks
+├── lib/           # Utilities and configurations
+├── types/         # TypeScript type definitions
+└── styles/        # Global styles and themes
 ```
 
-### Styling
-The system uses Tailwind CSS with a medical theme. Colors and styling can be customized in:
-- `tailwind.config.js` for global theme
-- Individual component files for specific styling
+### Key Technologies
+- **TypeScript** for type safety
+- **React Hooks** for state management
+- **Tailwind CSS** for styling
+- **Supabase** for backend services
+- **React Router** for navigation
 
-### Business Rules
-Modify queue logic in:
-- `src/hooks/useQueue.ts` - Queue calculations
-- `src/lib/utils.ts` - Helper functions
-- Admin page components - Status transitions
+## 🤝 Contributing
 
-## Security Features
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Test thoroughly
+5. Submit a pull request
 
-- **Row-level security** on all database tables
-- **Encrypted QR payloads** prevent tampering
-- **Audit logging** for all admin actions
-- **Rate limiting** prevention via form validation
-- **Secure authentication** with Supabase Auth
+## 📄 License
 
-## Performance
+This project is provided for educational and commercial use.
 
-- **Sub-500ms operations** for booking and updates
-- **Real-time propagation** under 1 second
-- **Optimized queries** with proper indexing
-- **Responsive design** for all devices
+## 🏆 Credits
 
-## Deployment
+Developed by **Aftab Alam** [ASOSE Lajpat Nagar]
+- Instagram: [@aftabxplained](https://instagram.com/aftabxplained)
+- Transforming healthcare through technology
 
-The system can be deployed to:
-- **Vercel/Netlify** (frontend)
-- **Supabase** (backend/database)
-- Any modern hosting platform supporting React apps
+---
 
-## Support
-
-This is a complete, production-ready system. For customizations or support, refer to the detailed code comments and type definitions throughout the codebase.
-
-## License
-
-This project is provided as-is for educational and commercial use.
+**Sancura** - Where healthcare meets innovation 🏥✨

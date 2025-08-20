@@ -245,4 +245,22 @@ export interface VoiceTranscription {
   language_code: string;
   processing_status: 'processing' | 'completed' | 'failed';
   created_at: string;
+  updated_at: string;
+}
+
+export interface Appointment {
+  id: string;
+  patient_id?: string;
+  doctor_id?: string;
+  visit_id?: string;
+  appointment_date: string;
+  appointment_time: string;
+  duration_minutes: number;
+  status: 'scheduled' | 'confirmed' | 'in_progress' | 'completed' | 'cancelled' | 'no_show';
+  notes?: string;
+  created_at: string;
+  updated_at: string;
+  patient?: Patient;
+  doctor?: Doctor;
+  visit?: Visit;
 }
